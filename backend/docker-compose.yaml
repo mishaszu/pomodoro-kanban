@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  db1:
+    image: postgres:latest 
+    restart: always
+    ports: 
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 'dev_only_pwd'
+      POSTGRES_DB: 'pomodoro_kanban'
+    volumes:
+      - database_data:/var/lib/postgresql/data
+
+volumes:
+  database_data:
+    driver: local

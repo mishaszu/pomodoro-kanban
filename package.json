@@ -1,0 +1,6 @@
+{
+  "name": "pomodoro-kanban",
+  "version": "0.1.0",
+  "author": "Michal Szulczewski",
+  "workspaces": ["backend", "frontend"],
+}

@@ -1,0 +1,22 @@
+rescript = 1
+rule cp
+  command = cp $i $out
+rule touch
+ command = touch $out
+o uuid.cmi : cp ../bs/src/uuid.cmi
+o uuid.cmj : cp ../bs/src/uuid.cmj
+o uuid.cmt : cp ../bs/src/uuid.cmt
+o uuid.res : cp ../../src/uuid.res
+o index.cmi : cp ../bs/src/index.cmi
+o index.cmj : cp ../bs/src/index.cmj
+o index.cmt : cp ../bs/src/index.cmt
+o index.res : cp ../../src/index.res
+o prisma.cmi : cp ../bs/src/prisma.cmi
+o prisma.cmj : cp ../bs/src/prisma.cmj
+o prisma.cmt : cp ../bs/src/prisma.cmt
+o prisma.res : cp ../../src/prisma.res
+o schema.cmi : cp ../bs/src/schema.cmi
+o schema.cmj : cp ../bs/src/schema.cmj
+o schema.cmt : cp ../bs/src/schema.cmt
+o schema.res : cp ../../src/schema.res
+build install.stamp : touch uuid.cmi uuid.cmj index.cmi index.cmj prisma.cmi prisma.cmj schema.cmi schema.cmj 

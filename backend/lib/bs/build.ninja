@@ -1,0 +1,22 @@
+rescript = 1
+rule astj
+  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe  -bs-v 10.1.4  -absname -bs-ast -o $out $i
+o src/uuid.ast : astj ../../src/uuid.res
+rule deps
+  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsb_helper.exe -hash bd3dfe77e3c24007f40f2a77e4037440 $in
+  restat = 1
+o src/uuid.d : deps src/uuid.ast
+rule mij
+  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe -I src   -bs-package-name backend-root -bs-package-output commonjs:$in_d:.bs.js $i
+  dyndep = 1
+  restat = 1
+o src/uuid.cmj src/uuid.cmi ../../src/uuid.bs.js : mij src/uuid.ast
+o src/index.ast : astj ../../src/index.res
+o src/index.d : deps src/index.ast
+o src/index.cmj src/index.cmi ../../src/index.bs.js : mij src/index.ast
+o src/prisma.ast : astj ../../src/prisma.res
+o src/prisma.d : deps src/prisma.ast
+o src/prisma.cmj src/prisma.cmi ../../src/prisma.bs.js : mij src/prisma.ast
+o src/schema.ast : astj ../../src/schema.res
+o src/schema.d : deps src/schema.ast
+o src/schema.cmj src/schema.cmi ../../src/schema.bs.js : mij src/schema.ast

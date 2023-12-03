@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SysConfig {
+  id                String  @id @unique @db.Uuid
+  allowRegistration Boolean @default(false)
+}
+
+model User {
+  id        String    @id @unique @db.Uuid
+  name      String
+  email     String    @unique
+  password  String
+  isAdmin   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Config    Config?   @relation(fields: [configId], references: [id])
+  configId  String?   @db.Uuid
+  Project   Project[]
+  Task      Task[]
+}
+
+model Config {
+  id                 String   @id @unique @db.Uuid
+  pomodoroDuration   Int
+  shortBreakDuration Int
+  longBreakDuration  Int
+  longBreakInterval  Int
+  autoStartBreak     Boolean
+  autoStartPomodoro  Boolean
+  showCompletedTasks Boolean
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  User               User[]
+}
+
+model Project {
+  id          String   @id @unique @db.Uuid
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Task        Task[]
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String?  @db.Uuid
+}
+
+model Task {
+  id                   String    @id @unique @db.Uuid
+  title                String
+  description          String?
+  completed            Boolean   @default(false)
+  plannedPomo          Int       @default(0)
+  finishedPomo         Int       @default(0)
+  dueDate              DateTime?
+  includeBeforeDueDate Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @db.Uuid
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?  @db.Uuid
+}
