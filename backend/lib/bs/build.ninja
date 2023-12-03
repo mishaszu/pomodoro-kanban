@@ -3,11 +3,11 @@ rule astj
   command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe  -bs-v 10.1.4  -absname -bs-ast -o $out $i
 o src/uuid.ast : astj ../../src/uuid.res
 rule deps
-  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsb_helper.exe -hash bd3dfe77e3c24007f40f2a77e4037440 $in
+  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsb_helper.exe -hash ae747f99f8de5fed017e4d6e7a86c6e1 $in
   restat = 1
 o src/uuid.d : deps src/uuid.ast
 rule mij
-  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe -I src   -bs-package-name backend-root -bs-package-output commonjs:$in_d:.bs.js $i
+  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe -I src/graphql -I src   -bs-package-name backend-root -bs-package-output commonjs:$in_d:.bs.js $i
   dyndep = 1
   restat = 1
 o src/uuid.cmj src/uuid.cmi ../../src/uuid.bs.js : mij src/uuid.ast
@@ -17,6 +17,33 @@ o src/index.cmj src/index.cmi ../../src/index.bs.js : mij src/index.ast
 o src/prisma.ast : astj ../../src/prisma.res
 o src/prisma.d : deps src/prisma.ast
 o src/prisma.cmj src/prisma.cmi ../../src/prisma.bs.js : mij src/prisma.ast
-o src/schema.ast : astj ../../src/schema.res
-o src/schema.d : deps src/schema.ast
-o src/schema.cmj src/schema.cmi ../../src/schema.bs.js : mij src/schema.ast
+o src/express.ast : astj ../../src/express.res
+o src/express.d : deps src/express.ast
+o src/express.cmj src/express.cmi ../../src/express.bs.js : mij src/express.ast
+o src/dbSchema.ast : astj ../../src/dbSchema.res
+o src/dbSchema.d : deps src/dbSchema.ast
+o src/dbSchema.cmj src/dbSchema.cmi ../../src/dbSchema.bs.js : mij src/dbSchema.ast
+o src/dbManager.ast : astj ../../src/dbManager.res
+o src/dbManager.d : deps src/dbManager.ast
+o src/dbManager.cmj src/dbManager.cmi ../../src/dbManager.bs.js : mij src/dbManager.ast
+o src/initPrisma.ast : astj ../../src/initPrisma.res
+o src/initPrisma.d : deps src/initPrisma.ast
+o src/initPrisma.cmj src/initPrisma.cmi ../../src/initPrisma.bs.js : mij src/initPrisma.ast
+o src/graphql/yoga.ast : astj ../../src/graphql/yoga.res
+o src/graphql/yoga.d : deps src/graphql/yoga.ast
+o src/graphql/yoga.cmj src/graphql/yoga.cmi ../../src/graphql/yoga.bs.js : mij src/graphql/yoga.ast
+o src/graphql/relay.ast : astj ../../src/graphql/relay.res
+o src/graphql/relay.d : deps src/graphql/relay.ast
+o src/graphql/relay.cmj src/graphql/relay.cmi ../../src/graphql/relay.bs.js : mij src/graphql/relay.ast
+o src/graphql/graphqljs.ast : astj ../../src/graphql/graphqljs.res
+o src/graphql/graphqljs.d : deps src/graphql/graphqljs.ast
+o src/graphql/graphqljs.cmj src/graphql/graphqljs.cmi ../../src/graphql/graphqljs.bs.js : mij src/graphql/graphqljs.ast
+o src/graphql/relayNode.ast : astj ../../src/graphql/relayNode.res
+o src/graphql/relayNode.d : deps src/graphql/relayNode.ast
+o src/graphql/relayNode.cmj src/graphql/relayNode.cmi ../../src/graphql/relayNode.bs.js : mij src/graphql/relayNode.ast
+o src/graphql/graphqlSchema.ast : astj ../../src/graphql/graphqlSchema.res
+o src/graphql/graphqlSchema.d : deps src/graphql/graphqlSchema.ast
+o src/graphql/graphqlSchema.cmj src/graphql/graphqlSchema.cmi ../../src/graphql/graphqlSchema.bs.js : mij src/graphql/graphqlSchema.ast
+o src/graphql/nodeDefinition.ast : astj ../../src/graphql/nodeDefinition.res
+o src/graphql/nodeDefinition.d : deps src/graphql/nodeDefinition.ast
+o src/graphql/nodeDefinition.cmj src/graphql/nodeDefinition.cmi ../../src/graphql/nodeDefinition.bs.js : mij src/graphql/nodeDefinition.ast
