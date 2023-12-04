@@ -1,44 +1,24 @@
 open NodeDefinition
 open Graphqljs
-
-type userFields = {
-  id: field<string>,
-  name: field<string>,
-  email: field<string>,
-}
-
-@get external userName: graphQlObject => Js.Null.t<string> = "name"
-@get external userEmail: graphQlObject => Js.Null.t<string> = "email"
-
-let userType = Graphqljs.newGraphqlObjectType({
-  name: "User",
-  description: "A user in the system."->Js.Undefined.return,
-  interfaces: Js.Undefined.return(() => [nodeDefinitions.nodeInterface]),
-  fields: () => {
-    id: Relay.globalIdField("User"),
-    name: {
-      "type": graphQLStringType,
-      "description": "The name of the user.",
-      "resolve": Js.undefined,
-    },
-    email: {
-      "type": graphQLStringType,
-      "description": "The email of the user.",
-      "resolve": Js.undefined,
-    },
-  },
-})
-
-type queryFields = {
-  users: fieldWithArgs<array<DbSchema.user>>,
-  node: RelayNode.nodeField,
-  nodes: RelayNode.nodesField,
-}
+open UserSchema
+open ConfigSchema
 
 let userConnectionType = Relay.connectionDefinitions({
   name: "User",
   nodeType: userType,
 })
+
+let configConnectionType = Relay.connectionDefinitions({
+  name: "Config",
+  nodeType: configType,
+})
+
+type queryFields = {
+  users: fieldWithArgs<array<DbSchema.user>>,
+  configs: fieldWithArgs<array<DbSchema.config>>,
+  node: RelayNode.nodeField,
+  nodes: RelayNode.nodesField,
+}
 
 let queryType = Graphqljs.newGraphqlObjectType({
   name: "Query",
@@ -54,6 +34,16 @@ let queryType = Graphqljs.newGraphqlObjectType({
       "resolve": async (_, args) => {
         let users = await DbManager.getUsers()
         Relay.connectionFromArray(users, args)
+      },
+    },
+    configs: {
+      "type": configConnectionType.connectionType,
+      "description": Js.Undefined.return("A list of configs."),
+      "args": Relay.newConnectionArgs(),
+      "resolve": async (_, args) => {
+        Js.log(args)
+        let configs = await DbManager.getConfigs()
+        Relay.connectionFromArray(configs, args)
       },
     },
   },

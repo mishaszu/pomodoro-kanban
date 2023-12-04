@@ -3,11 +3,11 @@ rule astj
   command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe  -bs-v 10.1.4  -absname -bs-ast -o $out $i
 o src/uuid.ast : astj ../../src/uuid.res
 rule deps
-  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsb_helper.exe -hash ae747f99f8de5fed017e4d6e7a86c6e1 $in
+  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsb_helper.exe -hash 2a03e8a3409cd514607605e744e34598 $in
   restat = 1
 o src/uuid.d : deps src/uuid.ast
 rule mij
-  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe -I src/graphql -I src   -bs-package-name backend-root -bs-package-output commonjs:$in_d:.bs.js $i
+  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe -I src/graphql -I src/external -I src   -bs-package-name backend-root -bs-package-output commonjs:$in_d:.bs.js $i
   dyndep = 1
   restat = 1
 o src/uuid.cmj src/uuid.cmi ../../src/uuid.bs.js : mij src/uuid.ast
@@ -29,18 +29,24 @@ o src/dbManager.cmj src/dbManager.cmi ../../src/dbManager.bs.js : mij src/dbMana
 o src/initPrisma.ast : astj ../../src/initPrisma.res
 o src/initPrisma.d : deps src/initPrisma.ast
 o src/initPrisma.cmj src/initPrisma.cmi ../../src/initPrisma.bs.js : mij src/initPrisma.ast
-o src/graphql/yoga.ast : astj ../../src/graphql/yoga.res
-o src/graphql/yoga.d : deps src/graphql/yoga.ast
-o src/graphql/yoga.cmj src/graphql/yoga.cmi ../../src/graphql/yoga.bs.js : mij src/graphql/yoga.ast
-o src/graphql/relay.ast : astj ../../src/graphql/relay.res
-o src/graphql/relay.d : deps src/graphql/relay.ast
-o src/graphql/relay.cmj src/graphql/relay.cmi ../../src/graphql/relay.bs.js : mij src/graphql/relay.ast
-o src/graphql/graphqljs.ast : astj ../../src/graphql/graphqljs.res
-o src/graphql/graphqljs.d : deps src/graphql/graphqljs.ast
-o src/graphql/graphqljs.cmj src/graphql/graphqljs.cmi ../../src/graphql/graphqljs.bs.js : mij src/graphql/graphqljs.ast
-o src/graphql/relayNode.ast : astj ../../src/graphql/relayNode.res
-o src/graphql/relayNode.d : deps src/graphql/relayNode.ast
-o src/graphql/relayNode.cmj src/graphql/relayNode.cmi ../../src/graphql/relayNode.bs.js : mij src/graphql/relayNode.ast
+o src/external/yoga.ast : astj ../../src/external/yoga.res
+o src/external/yoga.d : deps src/external/yoga.ast
+o src/external/yoga.cmj src/external/yoga.cmi ../../src/external/yoga.bs.js : mij src/external/yoga.ast
+o src/external/relay.ast : astj ../../src/external/relay.res
+o src/external/relay.d : deps src/external/relay.ast
+o src/external/relay.cmj src/external/relay.cmi ../../src/external/relay.bs.js : mij src/external/relay.ast
+o src/external/graphqljs.ast : astj ../../src/external/graphqljs.res
+o src/external/graphqljs.d : deps src/external/graphqljs.ast
+o src/external/graphqljs.cmj src/external/graphqljs.cmi ../../src/external/graphqljs.bs.js : mij src/external/graphqljs.ast
+o src/external/relayNode.ast : astj ../../src/external/relayNode.res
+o src/external/relayNode.d : deps src/external/relayNode.ast
+o src/external/relayNode.cmj src/external/relayNode.cmi ../../src/external/relayNode.bs.js : mij src/external/relayNode.ast
+o src/graphql/UserSchema.ast : astj ../../src/graphql/UserSchema.res
+o src/graphql/UserSchema.d : deps src/graphql/UserSchema.ast
+o src/graphql/UserSchema.cmj src/graphql/UserSchema.cmi ../../src/graphql/UserSchema.bs.js : mij src/graphql/UserSchema.ast
+o src/graphql/ConfigSchema.ast : astj ../../src/graphql/ConfigSchema.res
+o src/graphql/ConfigSchema.d : deps src/graphql/ConfigSchema.ast
+o src/graphql/ConfigSchema.cmj src/graphql/ConfigSchema.cmi ../../src/graphql/ConfigSchema.bs.js : mij src/graphql/ConfigSchema.ast
 o src/graphql/graphqlSchema.ast : astj ../../src/graphql/graphqlSchema.res
 o src/graphql/graphqlSchema.d : deps src/graphql/graphqlSchema.ast
 o src/graphql/graphqlSchema.cmj src/graphql/graphqlSchema.cmi ../../src/graphql/graphqlSchema.bs.js : mij src/graphql/graphqlSchema.ast

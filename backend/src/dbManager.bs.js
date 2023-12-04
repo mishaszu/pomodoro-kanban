@@ -13,6 +13,11 @@ async function getUsers(param) {
   return await InitPrisma.prisma.user.findMany();
 }
 
+async function getConfigs(param) {
+  return await InitPrisma.prisma.config.findMany();
+}
+
 exports.findUser = findUser;
 exports.getUsers = getUsers;
+exports.getConfigs = getConfigs;
 /* InitPrisma Not a pure module */

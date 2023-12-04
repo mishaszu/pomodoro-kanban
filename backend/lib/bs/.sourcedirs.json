@@ -1,1 +1,1 @@
-{ "dirs" : [ "src" , "src/graphql" ] , "pkgs" : [] , "generated" : [] }
+{ "dirs" : [ "src" , "src/external" , "src/graphql" ] , "pkgs" : [] , "generated" : [] }

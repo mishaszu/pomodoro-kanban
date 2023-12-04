@@ -1,12 +1,13 @@
 open Relay
 
 let toDb: globalIdToDb<'c> = async (id, _b) => {
-  let idMapped = fromGlobalId(id)
-  switch idMapped["type"] {
-  | "User" =>
-    await DbManager.findUser({
-      "id": idMapped["id"],
-    })
+  switch parseCustomIdType(id) {
+  | Some(("user", id)) => {
+      let user = await DbManager.findUser({
+        "id": id,
+      })
+      user
+    }
   | _ => Js.Null.empty
   }
 }
