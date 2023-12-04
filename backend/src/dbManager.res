@@ -13,3 +13,23 @@ let getUsers = async () => {
 let getConfigs = async () => {
   await prisma->config->findMany
 }
+
+let getConfigsBuyUserIds = async userIds => {
+  await prisma->config->findManyWhere({"where": {"userId": {"in": userIds}}})
+}
+
+let createConfig = async config => {
+  await prisma
+  ->DbSchema.config
+  ->createWithRef({
+    "data": config,
+  })
+}
+
+let deleteConfig = async id => {
+  await prisma
+  ->DbSchema.config
+  ->delete({
+    "where": {"id": id},
+  })
+}

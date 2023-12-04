@@ -26,23 +26,32 @@ type connectionOutput = {connectionType: Graphqljs.fieldType}
 @module("graphql-relay")
 external connectionDefinitions: connectionConfig => connectionOutput = "connectionDefinitions"
 @module("graphql-relay")
-external connectionFromArray: ('a, Graphqljs.connectionArgs) => Js.Null.t<'a> =
-  "connectionFromArray"
+external connectionFromArrayFn: ('a, 'b) => Js.Null.t<'a> = "connectionFromArray"
 
-type args = {
-  before: Graphqljs.simpleField<string>,
-  after: Graphqljs.simpleField<string>,
-  first: Graphqljs.simpleField<int>,
-  last: Graphqljs.simpleField<int>,
+let connectionFromArray = (arr: 'a, args: 'b) =>
+  connectionFromArrayFn(arr, Helper.jsUnwrapVariant(args))
+
+type argsInput = {
+  "before": Graphqljs.simpleField<string>,
+  "after": Graphqljs.simpleField<string>,
+  "first": Graphqljs.simpleField<int>,
+  "last": Graphqljs.simpleField<int>,
 }
 
-@module("graphql-relay") external connectionArgs: Graphqljs.connectionArgs = "connectionArgs"
+type argsOutput = {"before": string, "after": string, "first": int, "last": int}
 
-let newConnctionArgsFun: Graphqljs.connectionArgs => Graphqljs.connectionArgs = %raw(`
+@module("graphql-relay") external connectionArgs: argsInput = "connectionArgs"
+
+let newConnctionArgsFun: argsInput => argsInput = %raw(`
   (connectionArgs) => ({...connectionArgs})
 `)
 
+let mergeArgs: (argsInput, 'a) => 'b = %raw(`
+  (connectionArgs, args) => ({...connectionArgs, ...args})
+`)
+
 let newConnectionArgs = () => newConnctionArgsFun(connectionArgs)
+let newConnectionCustomArgs = a => mergeArgs(connectionArgs, a)
 
 @get external userId: Graphqljs.graphQlObject => string = "id"
 let customIdTypeCreator = (obj: Graphqljs.graphQlObject, type_: string) =>
@@ -63,3 +72,25 @@ let parseCustomIdTypeId = (id: string) =>
   | Some((_, id)) => Some(id)
   | None => None
   }
+
+type outputFieldsDef<'a, 'b> = {
+  message: Graphqljs.field<'a>,
+  error: Graphqljs.field<'b>,
+}
+
+type outputFields<'a, 'b> = {
+  message: 'a,
+  error: Js.null<'b>,
+}
+
+type mutation<'a, 'b, 'c, 'd, 'e, 'f> = {
+  name: string,
+  description: string,
+  inputFields: 'a,
+  mutateAndGetPayload: 'b => promise<outputFields<'c, 'd>>,
+  outputFields: outputFieldsDef<'e, 'f>,
+}
+
+@module("graphql-relay")
+external mutationWithClientMutationId: mutation<'a, 'b, 'c, 'd, 'e, 'f> => Graphqljs.mutationField =
+  "mutationWithClientMutationId"

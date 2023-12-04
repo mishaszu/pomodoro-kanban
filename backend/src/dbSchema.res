@@ -25,8 +25,9 @@ type config = {
   "autoStartBreak": bool,
   "autoStartPomodoro": bool,
   "showCompletedTasks": bool,
-  "createdAt": string,
-  "updatedAt": string,
+  "userId": Uuid.t,
+  "createdAt": Js.null<string>,
+  "updatedAt": Js.null<string>,
 }
 
 @get external config: t => model<'t> = "config"

@@ -11,6 +11,10 @@ o index.cmi : cp ../bs/src/index.cmi
 o index.cmj : cp ../bs/src/index.cmj
 o index.cmt : cp ../bs/src/index.cmt
 o index.res : cp ../../src/index.res
+o helper.cmi : cp ../bs/src/helper.cmi
+o helper.cmj : cp ../bs/src/helper.cmj
+o helper.cmt : cp ../bs/src/helper.cmt
+o helper.res : cp ../../src/helper.res
 o prisma.cmi : cp ../bs/src/prisma.cmi
 o prisma.cmj : cp ../bs/src/prisma.cmj
 o prisma.cmt : cp ../bs/src/prisma.cmt
@@ -63,4 +67,4 @@ o nodeDefinition.cmi : cp ../bs/src/graphql/nodeDefinition.cmi
 o nodeDefinition.cmj : cp ../bs/src/graphql/nodeDefinition.cmj
 o nodeDefinition.cmt : cp ../bs/src/graphql/nodeDefinition.cmt
 o nodeDefinition.res : cp ../../src/graphql/nodeDefinition.res
-build install.stamp : touch uuid.cmi uuid.cmj index.cmi index.cmj prisma.cmi prisma.cmj express.cmi express.cmj dbSchema.cmi dbSchema.cmj dbManager.cmi dbManager.cmj initPrisma.cmi initPrisma.cmj yoga.cmi yoga.cmj relay.cmi relay.cmj graphqljs.cmi graphqljs.cmj relayNode.cmi relayNode.cmj UserSchema.cmi UserSchema.cmj ConfigSchema.cmi ConfigSchema.cmj graphqlSchema.cmi graphqlSchema.cmj nodeDefinition.cmi nodeDefinition.cmj 
+build install.stamp : touch uuid.cmi uuid.cmj index.cmi index.cmj helper.cmi helper.cmj prisma.cmi prisma.cmj express.cmi express.cmj dbSchema.cmi dbSchema.cmj dbManager.cmi dbManager.cmj initPrisma.cmi initPrisma.cmj yoga.cmi yoga.cmj relay.cmi relay.cmj graphqljs.cmi graphqljs.cmj relayNode.cmi relayNode.cmj UserSchema.cmi UserSchema.cmj ConfigSchema.cmi ConfigSchema.cmj graphqlSchema.cmi graphqlSchema.cmj nodeDefinition.cmi nodeDefinition.cmj 

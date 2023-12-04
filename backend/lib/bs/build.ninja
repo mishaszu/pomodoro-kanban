@@ -3,7 +3,7 @@ rule astj
   command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsc.exe  -bs-v 10.1.4  -absname -bs-ast -o $out $i
 o src/uuid.ast : astj ../../src/uuid.res
 rule deps
-  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsb_helper.exe -hash 2a03e8a3409cd514607605e744e34598 $in
+  command = /home/mishaszu/Projects/full-stack/pomodoro-kanban/backend/node_modules/rescript/linux/bsb_helper.exe -hash f683a7355ec224aba3142d972e6ea7bd $in
   restat = 1
 o src/uuid.d : deps src/uuid.ast
 rule mij
@@ -14,6 +14,9 @@ o src/uuid.cmj src/uuid.cmi ../../src/uuid.bs.js : mij src/uuid.ast
 o src/index.ast : astj ../../src/index.res
 o src/index.d : deps src/index.ast
 o src/index.cmj src/index.cmi ../../src/index.bs.js : mij src/index.ast
+o src/helper.ast : astj ../../src/helper.res
+o src/helper.d : deps src/helper.ast
+o src/helper.cmj src/helper.cmi ../../src/helper.bs.js : mij src/helper.ast
 o src/prisma.ast : astj ../../src/prisma.res
 o src/prisma.d : deps src/prisma.ast
 o src/prisma.cmj src/prisma.cmi ../../src/prisma.bs.js : mij src/prisma.ast

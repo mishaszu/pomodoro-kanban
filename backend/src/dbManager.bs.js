@@ -17,7 +17,34 @@ async function getConfigs(param) {
   return await InitPrisma.prisma.config.findMany();
 }
 
+async function getConfigsBuyUserIds(userIds) {
+  return await InitPrisma.prisma.config.findMany({
+              where: {
+                userId: {
+                  in: userIds
+                }
+              }
+            });
+}
+
+async function createConfig(config) {
+  return await InitPrisma.prisma.config.create({
+              data: config
+            });
+}
+
+async function deleteConfig(id) {
+  return await InitPrisma.prisma.config.delete({
+              where: {
+                id: id
+              }
+            });
+}
+
 exports.findUser = findUser;
 exports.getUsers = getUsers;
 exports.getConfigs = getConfigs;
+exports.getConfigsBuyUserIds = getConfigsBuyUserIds;
+exports.createConfig = createConfig;
+exports.deleteConfig = deleteConfig;
 /* InitPrisma Not a pure module */

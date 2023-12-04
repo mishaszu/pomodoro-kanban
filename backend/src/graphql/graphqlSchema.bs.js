@@ -2,6 +2,7 @@
 'use strict';
 
 var Relay = require("../external/relay.bs.js");
+var Helper = require("../helper.bs.js");
 var Graphql = require("graphql");
 var DbManager = require("../dbManager.bs.js");
 var UserSchema = require("./UserSchema.bs.js");
@@ -28,20 +29,27 @@ var queryType = new Graphql.GraphQLObjectType({
                   users: {
                     type: userConnectionType.connectionType,
                     description: "A list of users.",
-                    args: Relay.newConnectionArgs(undefined),
+                    args: Helper.jsUnwrapVariant({
+                          TAG: /* RelayDefault */0,
+                          _0: Relay.newConnectionArgs(undefined)
+                        }),
                     resolve: (async function (param, args) {
                         var users = await DbManager.getUsers(undefined);
-                        return GraphqlRelay.connectionFromArray(users, args);
+                        return Relay.connectionFromArray(users, args);
                       })
                   },
                   configs: {
                     type: configConnectionType.connectionType,
                     description: "A list of configs.",
-                    args: Relay.newConnectionArgs(undefined),
+                    args: Helper.jsUnwrapVariant({
+                          TAG: /* WithUserId */1,
+                          _0: ConfigSchema.configArgsInputValue
+                        }),
                     resolve: (async function (param, args) {
-                        console.log(args);
-                        var configs = await DbManager.getConfigs(undefined);
-                        return GraphqlRelay.connectionFromArray(configs, args);
+                        var args$1 = Helper.jsFakeUnwrapVariant(args);
+                        var userId = args$1.userId;
+                        var configs = userId !== undefined ? await DbManager.getConfigsBuyUserIds(Relay.parseCustomIdTypeId(userId)) : await DbManager.getConfigs(undefined);
+                        return Relay.connectionFromArray(configs, args$1);
                       })
                   },
                   node: NodeDefinition.nodeDefinitions.nodeField,
@@ -62,7 +70,9 @@ var mutationType = new Graphql.GraphQLObjectType({
                     resolve: (function (param) {
                         return "test";
                       })
-                  }
+                  },
+                  addConfig: ConfigSchema.addConfigMutation,
+                  deleteConfig: ConfigSchema.deleteConfigMutation
                 };
         })
     });

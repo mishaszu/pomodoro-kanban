@@ -3,12 +3,10 @@ type graphQLString
 type graphQlObject
 type connectionArgs
 
+type mutationField
 type fieldType
 
-type simpleField<'a> = {
-  "type": fieldType,
-  "description": string,
-}
+type simpleField<'a> = {"type": fieldType, "description": string}
 
 type field<'a> = {
   "type": fieldType,
@@ -16,11 +14,11 @@ type field<'a> = {
   "resolve": Js.undefined<graphQlObject => Js.Null.t<'a>>,
 }
 
-type fieldWithArgs<'a> = {
+type fieldWithArgs<'a, 'b, 'c> = {
   "type": fieldType,
   "description": Js.undefined<string>,
-  "args": connectionArgs,
-  "resolve": (graphQlObject, connectionArgs) => promise<Js.Null.t<'a>>,
+  "args": 'b,
+  "resolve": (graphQlObject, 'c) => promise<Js.Null.t<'a>>,
 }
 
 type objectInput<'t, 'c> = {

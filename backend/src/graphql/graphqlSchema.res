@@ -13,9 +13,18 @@ let configConnectionType = Relay.connectionDefinitions({
   nodeType: configType,
 })
 
+type appArgsInput =
+  | RelayDefault(Relay.argsInput)
+  | WithUserId(configArgsInput)
+
+type outputArgs = [
+  | #RelayDefaultOut
+  | #WithUserIdOut
+]
+
 type queryFields = {
-  users: fieldWithArgs<array<DbSchema.user>>,
-  configs: fieldWithArgs<array<DbSchema.config>>,
+  users: fieldWithArgs<array<DbSchema.user>, appArgsInput, outputArgs>,
+  configs: fieldWithArgs<array<DbSchema.config>, appArgsInput, outputArgs>,
   node: RelayNode.nodeField,
   nodes: RelayNode.nodesField,
 }
@@ -30,7 +39,7 @@ let queryType = Graphqljs.newGraphqlObjectType({
     users: {
       "type": userConnectionType.connectionType,
       "description": Js.Undefined.return("A list of users."),
-      "args": Relay.newConnectionArgs(),
+      "args": Relay.newConnectionArgs()->RelayDefault->Helper.jsUnwrapVariant,
       "resolve": async (_, args) => {
         let users = await DbManager.getUsers()
         Relay.connectionFromArray(users, args)
@@ -39,17 +48,21 @@ let queryType = Graphqljs.newGraphqlObjectType({
     configs: {
       "type": configConnectionType.connectionType,
       "description": Js.Undefined.return("A list of configs."),
-      "args": Relay.newConnectionArgs(),
+      "args": configArgsInputValue->WithUserId->Helper.jsUnwrapVariant,
       "resolve": async (_, args) => {
-        Js.log(args)
-        let configs = await DbManager.getConfigs()
+        let args: configArgsOutput = args->Helper.jsFakeUnwrapVariant
+        let userId = args["userId"]
+        let configs = switch Js.Undefined.toOption(userId) {
+        | Some(userId) => await DbManager.getConfigsBuyUserIds(Relay.parseCustomIdTypeId(userId))
+        | None => await DbManager.getConfigs()
+        }
         Relay.connectionFromArray(configs, args)
       },
     },
   },
 })
 
-type mutationFields = {test: field<string>}
+type mutationFields = {test: field<string>, addConfig: mutationField, deleteConfig: mutationField}
 
 let mutationType = Graphqljs.newGraphqlObjectType({
   name: "Mutation",
@@ -61,6 +74,8 @@ let mutationType = Graphqljs.newGraphqlObjectType({
       "description": "A test mutation.",
       "resolve": (_ => "test"->Js.Null.return)->Js.Undefined.return,
     },
+    addConfig: addConfigMutation,
+    deleteConfig: deleteConfigMutation,
   },
 })
 

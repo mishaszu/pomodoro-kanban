@@ -1,1 +1,1 @@
-src/graphql/ConfigSchema.cmj : src/external/graphqljs.cmj src/external/graphqljs.cmi src/graphql/nodeDefinition.cmj src/graphql/nodeDefinition.cmi src/external/relay.cmj src/external/relay.cmi
+src/graphql/ConfigSchema.cmj : src/dbManager.cmj src/dbManager.cmi src/external/graphqljs.cmj src/external/graphqljs.cmi src/graphql/nodeDefinition.cmj src/graphql/nodeDefinition.cmi src/external/relay.cmj src/external/relay.cmi src/uuid.cmj src/uuid.cmi
